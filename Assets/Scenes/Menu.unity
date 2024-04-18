@@ -566,7 +566,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1515797796}
         m_TargetAssemblyTypeName: SalirMenu, Assembly-CSharp
         m_MethodName: Salir
         m_Mode: 1
@@ -1835,7 +1835,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1515797796}
         m_TargetAssemblyTypeName: SalirMenu, Assembly-CSharp
         m_MethodName: EmpezarNivel
         m_Mode: 5
@@ -3085,6 +3085,7 @@ GameObject:
   - component: {fileID: 1515797792}
   - component: {fileID: 1515797791}
   - component: {fileID: 1515797795}
+  - component: {fileID: 1515797796}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3193,6 +3194,18 @@ MonoBehaviour:
   resolutionDropDown: {fileID: 1438662598}
   defaultSFXVolume: 1
   defaultMusicVolume: 1
+--- !u!114 &1515797796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1515797789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e957c8478516e94ebe594e0a5ad0b03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1541954128
 GameObject:
   m_ObjectHideFlags: 0
