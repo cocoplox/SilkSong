@@ -1,45 +1,68 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 public class DatabaseManager : MonoBehaviour
 {
-    #region VARIABLES
     [Header("Database Properties")]
-    public string Host = "localhost";
-    public string User = "root";
-    public string Password = "Chochoplox1";
-    public string Database = "test";
-    #endregion
+    public string host = "localhost";
+    public string user;
+    public string password;
+    public string database;
 
-    #region UNITY METHODS
-    private void Start()
+    public void Iniciar()
     {
-        Connect();
-    }
-    #endregion
+        // Obtener las credenciales guardadas
+        user = PlayerPrefs.GetString("Username");
+        password = PlayerPrefs.GetString("Password");
+        database = PlayerPrefs.GetString("Database");
 
-    #region
-    private void Connect()
+        // Conectar a la base de datos y crear tablas
+        MySqlConnection connection = Connect();
+        if (connection != null)
+        {
+            CrearTablasIniciales(connection);
+
+        }
+    }
+
+    private MySqlConnection Connect()
     {
         MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
-        builder.Server = Host;
-        builder.UserID = User;
-        builder.Password = Password;
-        builder.Database = Database;
+        builder.Server = host;
+        builder.UserID = user;
+        builder.Password = password;
+        builder.Database = database;
+
+        MySqlConnection connection = new MySqlConnection(builder.ToString());
+
         try
         {
-            using (MySqlConnection connection = new MySqlConnection(builder.ToString()))
-            {
-                connection.Open();
-                Debug.Log("MySQL - Oppened Connection");
-            }
+            connection.Open();
+            Debug.Log("Conexión a MySQL establecida correctamente.");
         }
         catch (MySqlException e)
         {
-            Debug.LogException(e);
+            Debug.LogError("Error al conectar a MySQL: " + e.ToString());
+            return null; // Devolver null si la conexión falla
         }
+
+        return connection;
     }
-    #endregion
+
+    private void CrearTablasIniciales(MySqlConnection connection)
+    {
+        string query = "CREATE TABLE IF NOT EXISTS personaje (" +
+                       "nivel_espada INT, " +
+                       "is_Garra BOOLEAN, " +
+                       "is_Alas BOOLEAN, " +
+                       "is_Dash BOOLEAN, " +
+                       "currency INT" +
+                       ");";
+
+        MySqlCommand command = new MySqlCommand(query, connection);
+        command.ExecuteNonQuery();
+
+        Debug.Log("Tabla creada satisfactoriamente");
+    }
 }
