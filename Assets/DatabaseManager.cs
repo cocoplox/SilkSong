@@ -57,8 +57,10 @@ public class DatabaseManager : MonoBehaviour
                        "is_Garra BOOLEAN, " +
                        "is_Alas BOOLEAN, " +
                        "is_Dash BOOLEAN, " +
-                       "currency INT" +
-                       ");";
+                       "currency INT, " +
+                       "escena INT, " + 
+                       "pos_X FLOAT, " + 
+                       "pos_Y FLOAT);";
 
         MySqlCommand command = new MySqlCommand(query, connection);
         command.ExecuteNonQuery();
