@@ -6526,8 +6526,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2063774026}
-        m_TargetAssemblyTypeName: CredentialGetter, Assembly-CSharp
-        m_MethodName: BotonGuardar
+        m_TargetAssemblyTypeName: CredentialManager, Assembly-CSharp
+        m_MethodName: OnSaveButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7137,10 +7137,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b28f94e49e90db439d50e61fbaa04fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Host: 
-  User: 
-  Password: 
-  Database: 
+  host: localhost
+  user: 
+  password: 
+  database: 
 --- !u!4 &2063774025
 Transform:
   m_ObjectHideFlags: 0
@@ -7168,9 +7168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21db08b5114407d4e8110f34d2945f69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  username: {fileID: 248568380}
-  password: {fileID: 1208656133}
-  database: {fileID: 1207565953}
+  usernameField: {fileID: 248568380}
+  passwordField: {fileID: 1208656133}
+  databaseField: {fileID: 1207565953}
   databaseManager: {fileID: 2063774024}
 --- !u!1 &2076363165
 GameObject:
