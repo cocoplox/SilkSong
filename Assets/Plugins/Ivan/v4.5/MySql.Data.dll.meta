@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Plugins/v4.8/MySql.Data.dll.meta
-guid: 384036027f80d814fac2834372e1a765
-=======
-guid: cc6bf98161dd5e34d801fbb4afed349b
->>>>>>> level1final:Assets/Plugins/v4.5/MySql.Data.dll.meta
+guid: 03b9e4d46397ca04ea8764d41f0531b7
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2

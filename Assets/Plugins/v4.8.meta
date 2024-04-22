@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Plugins/v4.8.meta
 guid: f245f7c8d8dad1d4e8c38684cea38dba
+=======
+guid: 2bb30b5be0200a946befa4ee2229f842
+>>>>>>> level1final:Assets/Plugins/v4.5.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
