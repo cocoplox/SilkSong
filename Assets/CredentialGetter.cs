@@ -26,7 +26,16 @@ public class CredentialManager : MonoBehaviour
         Debug.Log(PlayerPrefs.GetString("Password"));
         Debug.Log(PlayerPrefs.GetString("Database"));
 
-        // Iniciar el DatabaseManager
-        databaseManager.Iniciar();
+        if (string.IsNullOrEmpty(database))
+        {
+            Debug.Log("La database no puede ser nula");
+        }
+        else 
+        {
+            // Iniciar el DatabaseManager
+            databaseManager.Iniciar();
+        }
+
+        
     }
 }
