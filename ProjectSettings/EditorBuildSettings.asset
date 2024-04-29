@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/karsiori/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/Menu.unity
@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: eef0a8e66204f96488b365af669cbe48
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 1dfd689af1f7a5a4190c4438382ad745
+  - enabled: 1
+    path: Assets/Scenes/PuebloLevel3.unity
+    guid: a3664734f45e509498db2933c8e96d08
   m_configObjects: {}
