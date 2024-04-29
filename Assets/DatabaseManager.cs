@@ -1,6 +1,7 @@
 using UnityEngine;
 using MySql.Data.MySqlClient;
 using System.Data;
+using UnityEngine.SceneManagement;
 
 public class DatabaseManager : MonoBehaviour
 {
@@ -38,8 +39,18 @@ public class DatabaseManager : MonoBehaviour
 
         try
         {
-            connection.Open();
-            Debug.Log("Conexión a MySQL establecida correctamente.");
+            
+            
+
+            if(database != null)
+            {
+                Debug.Log(database);
+                connection.Open();
+                Debug.Log("Conexión a MySQL establecida correctamente.");
+                empezarPartida(connection);
+            }
+            
+            
         }
         catch (MySqlException e)
         {
@@ -52,19 +63,87 @@ public class DatabaseManager : MonoBehaviour
 
     private void CrearTablasIniciales(MySqlConnection connection)
     {
+        //Antes de nada, limpiamos todo, en caso de que hubiese algo anteriormente, ya que es una nueva partida
+        limpiarTodo(connection);
+
         string query = "CREATE TABLE IF NOT EXISTS personaje (" +
                        "nivel_espada INT, " +
                        "is_Garra BOOLEAN, " +
                        "is_Alas BOOLEAN, " +
                        "is_Dash BOOLEAN, " +
                        "currency INT, " +
-                       "escena INT, " + 
+                       "escena VARCHAR(255), " + 
                        "pos_X FLOAT, " + 
-                       "pos_Y FLOAT);";
+                       "pos_Y FLOAT, " +
+                       "id INT AUTO_INCREMENT PRIMARY KEY);";
 
         MySqlCommand command = new MySqlCommand(query, connection);
         command.ExecuteNonQuery();
-
         Debug.Log("Tabla creada satisfactoriamente");
+        //Hacemos el insert inicial
+        initialInsert(connection);
+    }
+    private void empezarPartida(MySqlConnection connection)
+    {
+        if(connection != null)
+        {
+            SceneManager.LoadScene("Level1");
+
+        }
+    }
+    private void initialInsert(MySqlConnection connection)
+    {
+        if (connection == null)
+        {
+            print("Connexion nula");
+            return;
+        }
+
+        string query = "INSERT INTO personaje (nivel_espada,is_garra,is_Alas,is_Dash,currency,escena) values (@nivelEspada,@isGarras,@isAlas,@isDash,@currency,@escena)";
+
+        int nivelEspada = 1;
+        bool isGarras = false;
+        bool isAlas = false;
+        bool isDash = false;
+        int currency = 0;
+        string escena = "Level1";
+
+        MySqlCommand command = new MySqlCommand(query, connection);
+
+        command.Parameters.AddWithValue("@nivelEspada", nivelEspada);
+        command.Parameters.AddWithValue("@isGarras", isGarras);
+        command.Parameters.AddWithValue("@isAlas", isAlas);
+        command.Parameters.AddWithValue("@isDash", isDash);
+        command.Parameters.AddWithValue("@currency", currency);
+        command.Parameters.AddWithValue("@escena", escena);
+
+        try
+        {
+            command.ExecuteNonQuery();
+            Debug.Log("Insert inicial, insertado correctamente");
+        }
+        catch(MySqlException e)
+        {
+            Debug.Log("Error en el initialCommit" + e.ToString());
+        }
+
+
+    }
+    private void limpiarTodo(MySqlConnection connection)
+    {
+        string query = "DROP TABLE personaje";
+
+        MySqlCommand command = new MySqlCommand(query,connection);
+
+        try
+        {
+            command.ExecuteNonQuery();
+            Debug.Log("Tablas limpiadas inicialmente");
+        }
+        catch (MySqlException e)
+        {
+            Debug.Log("Error al limpiar la base de datos");
+        }
+        
     }
 }
