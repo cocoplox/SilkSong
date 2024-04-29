@@ -27,11 +27,11 @@ public class DatabaseManager : MonoBehaviour
         }
     }
 
-    private MySqlConnection Connect()
+    public MySqlConnection Connect()
     {
         MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
         builder.Server = host;
-        builder.UserID = user;
+        builder.UserID = user;      
         builder.Password = password;
         builder.Database = database;
 
@@ -68,9 +68,12 @@ public class DatabaseManager : MonoBehaviour
 
         string query = "CREATE TABLE IF NOT EXISTS personaje (" +
                        "nivel_espada INT, " +
+                       "vida_maxima INT, " +
+                       "vida_actual INT, " +
                        "is_Garra BOOLEAN, " +
                        "is_Alas BOOLEAN, " +
                        "is_Dash BOOLEAN, " +
+                       "is_Magia BOOLEAN," + 
                        "currency INT, " +
                        "escena VARCHAR(255), " + 
                        "pos_X FLOAT, " + 
@@ -99,7 +102,7 @@ public class DatabaseManager : MonoBehaviour
             return;
         }
 
-        string query = "INSERT INTO personaje (nivel_espada,is_garra,is_Alas,is_Dash,currency,escena) values (@nivelEspada,@isGarras,@isAlas,@isDash,@currency,@escena)";
+        string query = "INSERT INTO personaje (nivel_espada,is_garra,is_Alas,is_Dash,currency,escena,vida_maxima,vida_actual,is_Magia) values (@nivelEspada,@isGarras,@isAlas,@isDash,@currency,@escena,@vidaMaxima,@vidaActual,@isMagia)";
 
         int nivelEspada = 1;
         bool isGarras = false;
@@ -107,6 +110,9 @@ public class DatabaseManager : MonoBehaviour
         bool isDash = false;
         int currency = 0;
         string escena = "Level1";
+        int vidaMaxima = 4;
+        int vidaActual = 4;
+        bool isMagia = false;
 
         MySqlCommand command = new MySqlCommand(query, connection);
 
@@ -116,6 +122,9 @@ public class DatabaseManager : MonoBehaviour
         command.Parameters.AddWithValue("@isDash", isDash);
         command.Parameters.AddWithValue("@currency", currency);
         command.Parameters.AddWithValue("@escena", escena);
+        command.Parameters.AddWithValue("@vidaMaxima", vidaMaxima);
+        command.Parameters.AddWithValue("@vidaActual", vidaActual);
+        command.Parameters.AddWithValue("@isMagia", isMagia);
 
         try
         {
@@ -143,6 +152,14 @@ public class DatabaseManager : MonoBehaviour
         catch (MySqlException e)
         {
             Debug.Log("Error al limpiar la base de datos");
+        }
+        
+    }
+    public void CloseConnection(MySqlConnection connection)
+    {
+        if(connection != null && connection.State != ConnectionState.Closed)
+        {
+            connection.Close();
         }
         
     }
