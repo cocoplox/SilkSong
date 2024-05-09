@@ -1,35 +1,30 @@
+using UnityEngine;
 using MySql.Data.MySqlClient;
 using System.Data;
-using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class ContinuarPartidaScript : MonoBehaviour
+public class CargarPartidaScript : MonoBehaviour
 {
-    DatabaseManager databaseManager;
-
-    private void Awake()
+    public void CargarPartida()
     {
-        // Obtener la instancia de DatabaseManager
-        databaseManager = GetComponent<DatabaseManager>();
-    }
-
-    public void ContinuarPartida()
-    {
+        // Conectar a la base de datos
         MySqlConnection connection = ConnectarBD();
         if (connection != null)
         {
-            LoadVariablesFromDatabase(connection);
-            Debug.Log("Vida maxima =  " + Variables.vidaMaxima);
+            CargarVariablesDesdeDatabase(connection);
             connection.Close();
         }
         else
         {
             Debug.LogError("No se pudo conectar a la base de datos.");
         }
+        SceneManager.LoadScene(Variables.escena);
     }
 
-    public MySqlConnection ConnectarBD()
+    private MySqlConnection ConnectarBD()
     {
         MySqlConnectionStringBuilder builder = new MySqlConnectionStringBuilder();
+
         builder.Server = "localhost";
         builder.UserID = PlayerPrefs.GetString("Username");
         builder.Password = PlayerPrefs.GetString("Password");
@@ -49,11 +44,11 @@ public class ContinuarPartidaScript : MonoBehaviour
         }
     }
 
-    public void LoadVariablesFromDatabase(MySqlConnection connection)
+    private void CargarVariablesDesdeDatabase(MySqlConnection connection)
     {
         if (connection != null && connection.State == ConnectionState.Open)
         {
-            string query = "SELECT vida_maxima, vida_actual, nivel_espada, currency, is_garra, is_alas, is_magia, is_dash, escena FROM personaje WHERE id = 1";
+            string query = "SELECT vida_maxima, vida_actual, nivel_espada, currency, is_Garra, is_Alas, is_Magia, is_Dash, escena FROM personaje WHERE id = 1";
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataReader reader = command.ExecuteReader();
 
@@ -71,12 +66,13 @@ public class ContinuarPartidaScript : MonoBehaviour
             }
 
             reader.Close();
-            Debug.Log("nice");
+            Debug.Log("Datos cargados exitosamente.");
+
+            // Aquí puedes cargar la escena después de cargar los datos, si es necesario
         }
         else
         {
             Debug.LogWarning("No se pudo cargar los datos: la conexión a la base de datos no está abierta.");
         }
-        Debug.Log("Se ha continuado de forma satisfactoria");
     }
 }

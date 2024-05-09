@@ -149,7 +149,7 @@ public class DatabaseManager : MonoBehaviour
             command.ExecuteNonQuery();
             Debug.Log("Tablas limpiadas inicialmente");
         }
-        catch (MySqlException e)
+        catch (MySqlException)
         {
             Debug.Log("Error al limpiar la base de datos");
         }
