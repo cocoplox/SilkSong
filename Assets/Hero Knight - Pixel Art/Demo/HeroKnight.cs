@@ -1,34 +1,40 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public class HeroKnight : MonoBehaviour {
-
-    [SerializeField] float      m_speed = 4.0f;
-    [SerializeField] float      m_jumpForce = 7.5f;
-    [SerializeField] float      m_rollForce = 6.0f;
-    [SerializeField] bool       m_noBlood = false;
+public class HeroKnight : MonoBehaviour
+{
+    [SerializeField] float m_speed = 4.0f;
+    [SerializeField] float m_jumpForce = 7.5f;
+    [SerializeField] float m_rollForce = 6.0f;
+    [SerializeField] float m_maxHealth = 3.0f;
+    [SerializeField] bool m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
 
-    private Animator            m_animator;
-    private Rigidbody2D         m_body2d;
-    private Sensor_HeroKnight   m_groundSensor;
-    private Sensor_HeroKnight   m_wallSensorR1;
-    private Sensor_HeroKnight   m_wallSensorR2;
-    private Sensor_HeroKnight   m_wallSensorL1;
-    private Sensor_HeroKnight   m_wallSensorL2;
-    private bool                m_isWallSliding = false;
-    private bool                m_grounded = false;
-    private bool                m_rolling = false;
-    private int                 m_facingDirection = 1;
-    private int                 m_currentAttack = 0;
-    private float               m_timeSinceAttack = 0.0f;
-    private float               m_delayToIdle = 0.0f;
-    private float               m_rollDuration = 8.0f / 14.0f;
-    private float               m_rollCurrentTime;
+    private Animator m_animator;
+    private Rigidbody2D m_body2d;
+    private Sensor_HeroKnight m_groundSensor;
+    private Sensor_HeroKnight m_wallSensorR1;
+    private Sensor_HeroKnight m_wallSensorR2;
+    private Sensor_HeroKnight m_wallSensorL1;
+    private Sensor_HeroKnight m_wallSensorL2;
+    private bool m_isWallSliding = false;
+    private bool m_grounded = false;
+    private bool m_rolling = false;
+    private int m_facingDirection = 1;
+    private int m_currentAttack = 0;
+    private float m_timeSinceAttack = 0.0f;
+    private float m_delayToIdle = 0.0f;
+    private float m_rollDuration = 8.0f / 14.0f;
+    private float m_rollCurrentTime;
+    private float m_currentHealth;
 
+    public GameObject areaAtack;//empty con el trigger de la zona de ataque
+
+    private bool ataque;
+    [SerializeField] float distanciaDelAtaque = 1.5f;
+    [SerializeField] LayerMask capaDeEnemigos;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
@@ -37,96 +43,107 @@ public class HeroKnight : MonoBehaviour {
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
+        m_currentHealth = m_maxHealth; // Inicializamos la vida del jugador al valor máximo
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
-        // Increase timer that controls attack combo
+        Debug.Log("Vida actual del jugador: " + m_currentHealth);
+        // Si la vida es menor o igual a 0, el jugador no puede moverse ni saltar ni rodar
+        if (m_currentHealth <= 0)
+        {
+            m_speed = 0.0f;
+            m_jumpForce = 0.0f;
+            m_rollForce = 0.0f;
+            return;
+        }
+
+        // Aumentar el tiempo desde el último ataque
         m_timeSinceAttack += Time.deltaTime;
 
-        // Increase timer that checks roll duration
-        if(m_rolling)
+        // Aumentar el tiempo que verifica la duración del rodar
+        if (m_rolling)
             m_rollCurrentTime += Time.deltaTime;
 
-        // Disable rolling if timer extends duration
-        if(m_rollCurrentTime > m_rollDuration)
+        // Desactivar el rodar si el temporizador excede la duración
+        if (m_rollCurrentTime > m_rollDuration)
             m_rolling = false;
 
-        //Check if character just landed on the ground
+        // Verificar si el personaje acaba de aterrizar en el suelo
         if (!m_grounded && m_groundSensor.State())
         {
             m_grounded = true;
             m_animator.SetBool("Grounded", m_grounded);
         }
 
-        //Check if character just started falling
+        // Verificar si el personaje acaba de empezar a caer
         if (m_grounded && !m_groundSensor.State())
         {
             m_grounded = false;
             m_animator.SetBool("Grounded", m_grounded);
         }
 
-        // -- Handle input and movement --
+        // -- Manejar entrada y movimiento --
         float inputX = Input.GetAxis("Horizontal");
 
-        // Swap direction of sprite depending on walk direction
+        // Cambiar dirección del sprite según la dirección del movimiento
         if (inputX > 0)
         {
             GetComponent<SpriteRenderer>().flipX = false;
             m_facingDirection = 1;
         }
-            
+
         else if (inputX < 0)
         {
             GetComponent<SpriteRenderer>().flipX = true;
             m_facingDirection = -1;
         }
 
-        // Move
-        if (!m_rolling )
+        // Mover
+        if (!m_rolling)
             m_body2d.velocity = new Vector2(inputX * m_speed, m_body2d.velocity.y);
 
-        //Set AirSpeed in animator
+        // Establecer la velocidad en el aire en el animador
         m_animator.SetFloat("AirSpeedY", m_body2d.velocity.y);
 
-        // -- Handle Animations --
-        //Wall Slide
+        // -- Manejar Animaciones --
+        // Deslizamiento en la pared
         m_isWallSliding = (m_wallSensorR1.State() && m_wallSensorR2.State()) || (m_wallSensorL1.State() && m_wallSensorL2.State());
         m_animator.SetBool("WallSlide", m_isWallSliding);
 
-        //Death
+        // Muerte
         if (Input.GetKeyDown("e") && !m_rolling)
         {
             m_animator.SetBool("noBlood", m_noBlood);
             m_animator.SetTrigger("Death");
         }
-            
-        //Hurt
+
+        // Daño
         else if (Input.GetKeyDown("q") && !m_rolling)
             m_animator.SetTrigger("Hurt");
 
-        //Attack
-        else if(Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.25f && !m_rolling)
+        // Ataque
+        else if (Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.25f && !m_rolling)
         {
             m_currentAttack++;
 
-            // Loop back to one after third attack
+            // Regresar a uno después del tercer ataque
             if (m_currentAttack > 3)
                 m_currentAttack = 1;
 
-            // Reset Attack combo if time since last attack is too large
+            // Restablecer la combinación de ataque si el tiempo desde el último ataque es demasiado largo
             if (m_timeSinceAttack > 1.0f)
                 m_currentAttack = 1;
 
-            // Call one of three attack animations "Attack1", "Attack2", "Attack3"
+            // Llamar a una de las tres animaciones de ataque "Attack1", "Attack2", "Attack3"
             m_animator.SetTrigger("Attack" + m_currentAttack);
 
-            // Reset timer
+            // Restablecer temporizador
             m_timeSinceAttack = 0.0f;
         }
 
-        // Block
+        // Bloqueo
         else if (Input.GetMouseButtonDown(1) && !m_rolling)
         {
             m_animator.SetTrigger("Block");
@@ -136,16 +153,16 @@ public class HeroKnight : MonoBehaviour {
         else if (Input.GetMouseButtonUp(1))
             m_animator.SetBool("IdleBlock", false);
 
-        // Roll
+        // Rodar
         else if (Input.GetKeyDown("left shift") && !m_rolling && !m_isWallSliding)
         {
             m_rolling = true;
             m_animator.SetTrigger("Roll");
             m_body2d.velocity = new Vector2(m_facingDirection * m_rollForce, m_body2d.velocity.y);
         }
-            
 
-        //Jump
+
+        // Saltar
         else if (Input.GetKeyDown("space") && m_grounded && !m_rolling)
         {
             m_animator.SetTrigger("Jump");
@@ -155,21 +172,37 @@ public class HeroKnight : MonoBehaviour {
             m_groundSensor.Disable(0.2f);
         }
 
-        //Run
+        // Correr
         else if (Mathf.Abs(inputX) > Mathf.Epsilon)
         {
-            // Reset timer
+            // Restablecer temporizador
             m_delayToIdle = 0.05f;
             m_animator.SetInteger("AnimState", 1);
         }
 
-        //Idle
+        // Reposo
         else
         {
-            // Prevents flickering transitions to idle
+            // Prevenir transiciones intermitentes al reposo
             m_delayToIdle -= Time.deltaTime;
-                if(m_delayToIdle < 0)
-                    m_animator.SetInteger("AnimState", 0);
+            if (m_delayToIdle < 0)
+                m_animator.SetInteger("AnimState", 0);
+        }
+    }
+
+    // Método para reducir la vida del jugador
+    public void RecibirDaño(float cantidad)
+    {
+        if (m_currentHealth > 0)
+        {
+            m_currentHealth --;
+            m_animator.SetTrigger("Hurt"); // Activar la animación de ser golpeado
+            if (m_currentHealth <= 0)
+            {
+                m_animator.SetBool("noBlood", m_noBlood);
+                m_animator.SetTrigger("Death"); // Activar la animación de muerte si la vida llega a cero
+                // Aquí puedes añadir cualquier otra lógica que quieras cuando el jugador muere
+            }
         }
     }
 
@@ -186,10 +219,44 @@ public class HeroKnight : MonoBehaviour {
 
         if (m_slideDust != null)
         {
-            // Set correct arrow spawn position
+            // Establecer la posición de spawn correcta
             GameObject dust = Instantiate(m_slideDust, spawnPosition, gameObject.transform.localRotation) as GameObject;
-            // Turn arrow in correct direction
+            // Girar el polvo en la dirección correcta
             dust.transform.localScale = new Vector3(m_facingDirection, 1, 1);
         }
     }
+
+    // Método para establecer ataque en true
+    void SetAtaqueTrue()
+    {
+        ataque = true;
+
+        areaAtack.SetActive(true);
+    }
+
+    // Método para establecer ataque en false cuando finaliza la animación de ataque
+    void SetAtaqueFalse()
+    {
+        ataque = false;
+        areaAtack.SetActive(false);
+    }
+    public float GetCurrentHealth()
+    {
+        return m_currentHealth;
+    }
+
+    /*void RealizarAtaque()
+    {
+        if (ataque == true)
+        {
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, Vector2.right * m_facingDirection, distanciaDelAtaque, capaDeEnemigos);
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.collider != null && hit.collider.CompareTag("Enemigo"))
+                {
+                    Destroy(hit.collider.gameObject);
+                }
+            }
+        }
+    }*/
 }
