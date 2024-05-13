@@ -136,7 +136,8 @@ public class DatabaseManager : MonoBehaviour
             Debug.Log("Error en el initialCommit" + e.ToString());
         }
 
-
+        //TIENDA 1
+        
     }
     private void limpiarTodo(MySqlConnection connection)
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPosition : MonoBehaviour
+public class PruebaEvento : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,5 +14,9 @@ public class PlayerPosition : MonoBehaviour
     void Update()
     {
         
+    }
+    public void DebugTests()
+    {
+        Debug.Log("Se ha interactuado con el objeto");
     }
 }
