@@ -9,10 +9,9 @@ public class HeroKnight : MonoBehaviour
     [SerializeField] bool m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
 
-    private bool m_jumpCooldown = false;
-    private float m_jumpCooldownTimer = 0.0f;
+    private bool m_jumpCooldown = true;
+    private float m_jumpCooldownTimer = 0.5f;
     private float m_jumpCooldownDuration = 0.5f;
-
 
     private Animator m_animator;
     private Rigidbody2D m_body2d;
@@ -55,13 +54,13 @@ public class HeroKnight : MonoBehaviour
     void Update()
     {
         //Enfiramiento de salto
-        if (m_jumpCooldown)
+        if (!m_jumpCooldown)
         {
             m_jumpCooldownTimer += Time.deltaTime;
             if (m_jumpCooldownTimer >= m_jumpCooldownDuration)
             {
-                m_jumpCooldown = false;
-                m_jumpCooldownTimer = 0.0f;
+                m_jumpCooldown = true;
+                //m_jumpCooldownTimer = 0.0f;
             }
         }
 
@@ -188,25 +187,28 @@ public class HeroKnight : MonoBehaviour
             m_groundSensor.Disable(0.2f);
         }
         //salto por la paret
-        else if (Input.GetKeyDown("space") && (m_grounded || m_isWallSliding) && !m_rolling && Variables.isGarras)
+        else if (Input.GetKeyDown("space") && (m_grounded || m_isWallSliding) && !m_rolling && m_jumpCooldown)
         {
             m_animator.SetTrigger("Jump");
             m_grounded = false;
             m_animator.SetBool("Grounded", m_grounded);
             if (m_isWallSliding)
             {
-                // Si está deslizándose por una pared, añade una fuerza para saltar de la pared
-                m_body2d.velocity = new Vector2(-m_facingDirection * m_speed, m_jumpForce); // Cambio de dirección al saltar desde la pared
+                // Calculamos la dirección opuesta a la dirección en la que miraba el personaje antes de saltar
+                int oppositeDirection = -m_facingDirection;
+                // Aplicamos la fuerza para saltar de la pared en la dirección opuesta
+                m_body2d.velocity = new Vector2(oppositeDirection * 20, m_jumpForce);
             }
             else
             {
                 // Si está en el suelo, salta normalmente
                 m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
             }
-            m_groundSensor.Disable(0.6f);
+            m_groundSensor.Disable(0.2f);
 
-            // Activar el enfriamiento del salto
-            m_jumpCooldown = true;
+            // Activar el cooldown del salto
+            m_jumpCooldown = false;
+            m_jumpCooldownTimer = 0;
         }
 
         // Correr
