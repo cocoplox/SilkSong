@@ -60,7 +60,13 @@ public class GuardarPartidaScript : MonoBehaviour
             command.Parameters.AddWithValue("@isAlas", Variables.isAlas);
             command.Parameters.AddWithValue("@isMagia", Variables.isMagia);
             command.Parameters.AddWithValue("@isDash", Variables.isDash);
-            command.Parameters.AddWithValue("@escena", (SceneManager.GetActiveScene().name));
+
+            string escena = SceneManager.GetActiveScene().name;
+            if (escena.Equals("Menu"))
+            {
+                escena = "level1";
+            }
+            command.Parameters.AddWithValue("@escena",escena);
 
             try
             {

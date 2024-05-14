@@ -23,6 +23,7 @@ public class DatabaseManager : MonoBehaviour
         if (connection != null)
         {
             CrearTablasIniciales(connection);
+            SceneManager.LoadScene("Level1");
 
         }
     }
@@ -85,6 +86,14 @@ public class DatabaseManager : MonoBehaviour
         Debug.Log("Tabla creada satisfactoriamente");
         //Hacemos el insert inicial
         initialInsert(connection);
+
+        query = "create table tienda1(\r\nvida_maxima int,\r\nmineral_extraño int\r\n);";
+        command = new MySqlCommand(query, connection);
+        command.ExecuteNonQuery();
+        Debug.Log("La tabla tienda1 seha creado correctamente");
+        InsertTienda1(connection);
+
+
     }
     private void empezarPartida(MySqlConnection connection)
     {
@@ -136,11 +145,33 @@ public class DatabaseManager : MonoBehaviour
             Debug.Log("Error en el initialCommit" + e.ToString());
         }
 
+        //TIENDA 1
 
+        
+    }
+    private void InsertTienda1(MySqlConnection connection)
+    {
+        string query = "INSERT INTO tienda1 (vida_maxima,mineral_extraño) VALUES (@vidaMaxima,@mineralExtraño)";
+
+        int vidaMaxima = 1;
+        int mineralExtraño = 1;
+
+        MySqlCommand command = new MySqlCommand(query, connection);
+        command.Parameters.AddWithValue("@vidaMaxima", vidaMaxima);
+        command.Parameters.AddWithValue("@mineralExtraño", mineralExtraño);
+
+        try
+        {
+            command.ExecuteNonQuery();
+        }
+        catch(MySqlException e)
+        {
+            Debug.Log("Ha ocurrido un error al insertar los datos en tienda1" + e.ToString());
+        }
     }
     private void limpiarTodo(MySqlConnection connection)
     {
-        string query = "DROP TABLE personaje";
+        string query = "DROP TABLE personaje, tienda1";
 
         MySqlCommand command = new MySqlCommand(query,connection);
 

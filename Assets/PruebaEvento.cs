@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InitialTable : MonoBehaviour
+public class PruebaEvento : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,5 +14,10 @@ public class InitialTable : MonoBehaviour
     void Update()
     {
         
+    }
+    public void DebugTests()
+    {
+        //Metodo que muestra la tienda...
+
     }
 }
