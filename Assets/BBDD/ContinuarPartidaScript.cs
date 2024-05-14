@@ -69,6 +69,7 @@ public class CargarPartidaScript : MonoBehaviour
             Debug.Log("Datos cargados exitosamente.");
 
             // Aquí puedes cargar la escena después de cargar los datos, si es necesario
+            SceneManager.LoadScene(Variables.escena);
         }
         else
         {

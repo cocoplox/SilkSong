@@ -49,7 +49,7 @@ public class HeroKnight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Vida actual del jugador: " + m_currentHealth);
+        Debug.Log("Vida actual del jugador: " + Variables.vidaMaxima);
         // Si la vida es menor o igual a 0, el jugador no puede moverse ni saltar ni rodar
         if (m_currentHealth <= 0)
         {
