@@ -6084,6 +6084,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4230115b20eaf0f44b57e04e0d942012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1791705437 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3570347931824418334, guid: 20aa48b51ee50f043bb18347cf6496dd, type: 3}
+  m_PrefabInstance: {fileID: 5211966609200881741}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4458692ac29f804a8a6001b092709ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1799254213
 GameObject:
   m_ObjectHideFlags: 0
@@ -6563,6 +6574,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1791705436}
         m_TargetAssemblyTypeName: CargarPartidaScript, Assembly-CSharp
         m_MethodName: CargarPartida
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1791705437}
+        m_TargetAssemblyTypeName: GuardarPartidaScript, Assembly-CSharp
+        m_MethodName: GuardarPartida
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
