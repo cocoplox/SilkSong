@@ -64,7 +64,7 @@ public class HeroKnight : MonoBehaviour
             }
         }
 
-        Debug.Log("Vida actual del jugador: " + m_currentHealth);
+        
         // Si la vida es menor o igual a 0, el jugador no puede moverse ni saltar ni rodar
         if (m_currentHealth <= 0)
         {
