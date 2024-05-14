@@ -9,6 +9,11 @@ public class HeroKnight : MonoBehaviour
     [SerializeField] bool m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
 
+    private bool m_jumpCooldown = false;
+    private float m_jumpCooldownTimer = 0.0f;
+    private float m_jumpCooldownDuration = 0.5f;
+
+
     private Animator m_animator;
     private Rigidbody2D m_body2d;
     private Sensor_HeroKnight m_groundSensor;
@@ -49,6 +54,17 @@ public class HeroKnight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Enfiramiento de salto
+        if (m_jumpCooldown)
+        {
+            m_jumpCooldownTimer += Time.deltaTime;
+            if (m_jumpCooldownTimer >= m_jumpCooldownDuration)
+            {
+                m_jumpCooldown = false;
+                m_jumpCooldownTimer = 0.0f;
+            }
+        }
+
         Debug.Log("Vida actual del jugador: " + m_currentHealth);
         // Si la vida es menor o igual a 0, el jugador no puede moverse ni saltar ni rodar
         if (m_currentHealth <= 0)
@@ -170,6 +186,27 @@ public class HeroKnight : MonoBehaviour
             m_animator.SetBool("Grounded", m_grounded);
             m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
             m_groundSensor.Disable(0.2f);
+        }
+        //salto por la paret
+        else if (Input.GetKeyDown("space") && (m_grounded || m_isWallSliding) && !m_rolling && Variables.isGarras)
+        {
+            m_animator.SetTrigger("Jump");
+            m_grounded = false;
+            m_animator.SetBool("Grounded", m_grounded);
+            if (m_isWallSliding)
+            {
+                // Si está deslizándose por una pared, añade una fuerza para saltar de la pared
+                m_body2d.velocity = new Vector2(-m_facingDirection * m_speed, m_jumpForce); // Cambio de dirección al saltar desde la pared
+            }
+            else
+            {
+                // Si está en el suelo, salta normalmente
+                m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
+            }
+            m_groundSensor.Disable(0.6f);
+
+            // Activar el enfriamiento del salto
+            m_jumpCooldown = true;
         }
 
         // Correr
