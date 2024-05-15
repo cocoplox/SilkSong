@@ -8,6 +8,8 @@ public class HeroKnight : MonoBehaviour
     [SerializeField] float m_maxHealth = 3.0f;
     [SerializeField] bool m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
+    public bool m_extraJumpUsed = false;
+
 
     private bool m_jumpCooldown = true;
     private float m_jumpCooldownTimer = 0.5f;
@@ -53,6 +55,15 @@ public class HeroKnight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Enfriamiento Doble Salto
+        if (m_grounded)
+        {
+            m_grounded = false;
+            m_animator.SetBool("Grounded", m_grounded);
+
+            // Restablecer la bandera de salto extra
+            m_extraJumpUsed = false;
+        }
         //Enfiramiento de salto
         if (!m_jumpCooldown)
         {
@@ -210,6 +221,32 @@ public class HeroKnight : MonoBehaviour
             m_jumpCooldown = false;
             m_jumpCooldownTimer = 0;
         }
+        //Doble salto
+        else if (Input.GetKeyDown("space") && (m_grounded || m_isWallSliding || (!m_grounded && !m_extraJumpUsed)) && !m_rolling && m_jumpCooldown)
+        {
+            // Restablecer la bandera de salto extra
+            m_extraJumpUsed = true;
+            m_animator.SetTrigger("Jump");
+            m_grounded = false;
+            m_animator.SetBool("Grounded", m_grounded);
+            if (m_isWallSliding)
+            {
+                // Calculamos la dirección opuesta a la dirección en la que miraba el personaje antes de saltar
+                int oppositeDirection = -m_facingDirection;
+                // Aplicamos la fuerza para saltar de la pared en la dirección opuesta
+                m_body2d.velocity = new Vector2(oppositeDirection * 20, m_jumpForce);
+            }
+            else
+            {
+                // Si está en el suelo, salta normalmente
+                m_body2d.velocity = new Vector2(m_body2d.velocity.x, m_jumpForce);
+            }
+            m_groundSensor.Disable(0.2f);
+
+            // Activar el cooldown del salto
+            m_jumpCooldown = false;
+            m_jumpCooldownTimer = 0;
+        }
 
         // Correr
         else if (Mathf.Abs(inputX) > Mathf.Epsilon)
@@ -228,6 +265,7 @@ public class HeroKnight : MonoBehaviour
                 m_animator.SetInteger("AnimState", 0);
         }
     }
+
 
     // Método para reducir la vida del jugador
     public void RecibirDaño(float cantidad)
