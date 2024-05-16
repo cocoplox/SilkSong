@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CaminoLevel3.unity
     guid: ec0568debf3d65b429d5e95f50eca75d
+  - enabled: 1
+    path: Assets/Scenes/Level4.unity
+    guid: f5d4ee49ca24c314280bd6ca882ef8b0
   m_configObjects: {}
