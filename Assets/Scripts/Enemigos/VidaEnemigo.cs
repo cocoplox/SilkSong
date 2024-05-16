@@ -3,9 +3,8 @@ using UnityEngine;
 public class VidaEnemigo : MonoBehaviour
 {
     public float vidaMaxima = 100.0f; // Vida máxima del enemigo
-    private float vidaActual; // Vida actual del enemigo
+    public float vidaActual; // Vida actual del enemigo
 
-    // Se llama cuando se inicializa el objeto
     void Start()
     {
         vidaActual = vidaMaxima; // Inicializar la vida actual con el valor máximo
@@ -19,7 +18,6 @@ public class VidaEnemigo : MonoBehaviour
         // Verificar si la vida del enemigo es menor o igual a 0
         if (vidaActual <= 0)
         {
-            // Llamar a un método de muerte del enemigo
             Morir();
         }
     }
@@ -27,8 +25,6 @@ public class VidaEnemigo : MonoBehaviour
     // Método para que el enemigo muera
     void Morir()
     {
-        // Aquí puedes agregar cualquier lógica que desees cuando el enemigo muere
-        // Por ejemplo, reproducir una animación de muerte, dar puntos al jugador, etc.
 
         Destroy(gameObject); // Destruir el objeto del enemigo
     }
