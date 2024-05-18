@@ -61,6 +61,8 @@ public class GuardarPartidaScript : MonoBehaviour
             command.Parameters.AddWithValue("@isMagia", Variables.isMagia);
             command.Parameters.AddWithValue("@isDash", Variables.isDash);
 
+            //Teindas...
+
             string escena = SceneManager.GetActiveScene().name;
             if (escena.Equals("Menu"))
             {

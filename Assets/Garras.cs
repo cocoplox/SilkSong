@@ -8,5 +8,9 @@ public class Garras : MonoBehaviour
     public void DarGarras()
     {
         Variables.isGarras = true;
+        Variables.isAlas = true;
+
+        Variables.vidaMaxima++;
+        Variables.nivelEspada++;
     }
 }

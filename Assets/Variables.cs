@@ -23,4 +23,12 @@ public class Variables : MonoBehaviour
 
      public static string escena;
 
+    //TIENDA 1
+    public static int t1_vidaMaxima;
+    public static int t1_mineralExtraño;
+
+    //PRECIOS VARIABLE
+    public static int t1_vidaMaxima_Value = 100;
+    public static int t1_mineralExtraño_Value = 150;
+
 }
