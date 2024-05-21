@@ -100,17 +100,12 @@ public class Bdash : MonoBehaviour
     }
 
     // Método para detectar colisiones con el jugador
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Player")) // Verificar si la colisión es con el jugador
+        if (other.CompareTag("Player"))
         {
-            // Obtener el componente del jugador
-            HeroKnight jugador = collision.gameObject.GetComponent<HeroKnight>();
-            if (jugador != null)
-            {
-                // Reducir la vida del jugador
-                jugador.RecibirDaño(dañoAlJugador);
-            }
+            // Reducir la vida del jugador
+            other.GetComponent<HeroKnight>().RecibirDaño(dañoAlJugador);
         }
     }
 }
