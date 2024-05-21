@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class AtaqueJugador : MonoBehaviour
 {
-    [SerializeField] AudioClip espada; 
     private AudioSource audioSource; // Componente AudioSource
     public void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+
     }
 
     // Método que se llama cuando el collider del objeto entra en contacto con otro collider
@@ -21,7 +20,6 @@ public class AtaqueJugador : MonoBehaviour
             // Verificar si el enemigo tiene un componente de vida
             if (vidaEnemigo != null)
             {
-                audioSource.PlayOneShot(espada);
                 // Reducir la vida del enemigo
                 vidaEnemigo.ReducirVida(Variables.currentDamage);
 

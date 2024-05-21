@@ -10,19 +10,16 @@ public class VidaEnemigo : MonoBehaviour
     public bool J3;
     public bool J4;
     [SerializeField] AudioClip daño;
-    private AudioSource audioSource;
     public UnityEvent OnVidaReducida; // Evento que se activa cuando la vida se reduce
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
         vidaActual = vidaMaxima; // Inicializar la vida actual con el valor máximo
     }
 
     // Método para reducir la vida del enemigo
     public void ReducirVida(float cantidad)
     {
-        audioSource.PlayOneShot(daño);
 
         vidaActual -= cantidad; // Restar la cantidad de daño recibida
         Debug.Log(vidaActual);
