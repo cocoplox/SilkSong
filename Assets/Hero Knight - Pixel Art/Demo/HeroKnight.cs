@@ -11,6 +11,9 @@ public class HeroKnight : MonoBehaviour
     [SerializeField] GameObject m_slideDust;
     [SerializeField] Text gameOverText; // Texto que se mostrará cuando el jugador muera
 
+    private Vector3 ataquePosicionIzquierda = new Vector3(-0.7f, 0.642f, 0);
+    private Vector3 ataquePosicionDerecha = new Vector3(1.077f, 0.642f, 0);
+
     public bool m_extraJumpUsed = false;
     
 
@@ -36,6 +39,7 @@ public class HeroKnight : MonoBehaviour
     private float m_delayToIdle = 0.0f;
     private float m_rollDuration = 8.0f / 14.0f;
     private float m_rollCurrentTime;
+    private bool hasPlayedDeathSound = false;
 
 
     public GameObject areaAtack;//empty con el trigger de la zona de ataque
@@ -48,8 +52,7 @@ public class HeroKnight : MonoBehaviour
     private AudioSource audioSource; // Componente AudioSource
 
 
-    private Vector3 ataquePosicionIzquierda = new Vector3(-0.84f, 0.72f, 0);
-    private Vector3 ataquePosicionDerecha = new Vector3(1.06f, 0.72f, 0);
+    
 
 
     // Use this for initialization
@@ -64,6 +67,8 @@ public class HeroKnight : MonoBehaviour
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
         Variables.vidaActual = Variables.vidaMaxima; // Inicializamos la vida del jugador al valor máximo
+
+
 
         if (gameOverText != null)
         {
@@ -167,7 +172,7 @@ public class HeroKnight : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().flipX = true;
             m_facingDirection = -1;
-            ActualizarPosicionAtaque();  // Llama a la función para actualizar la posición del ataque
+            ActualizarPosicionAtaque();
         }
 
 
