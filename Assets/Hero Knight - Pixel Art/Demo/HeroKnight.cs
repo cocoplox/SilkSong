@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 public class HeroKnight : MonoBehaviour
 {
@@ -8,6 +10,8 @@ public class HeroKnight : MonoBehaviour
     [SerializeField] float m_maxHealth = 3.0f;
     [SerializeField] bool m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
+    [SerializeField] Text gameOverText; // Texto que se mostrará cuando el jugador muera
+
     public bool m_extraJumpUsed = false;
 
 
@@ -50,11 +54,37 @@ public class HeroKnight : MonoBehaviour
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
         m_currentHealth = m_maxHealth; // Inicializamos la vida del jugador al valor máximo
+
+        if (gameOverText != null)
+        {
+            gameOverText.gameObject.SetActive(false); // Asegurarnos de que el texto esté oculto al inicio
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (m_currentHealth <= 0)
+        {
+            m_speed = 0.0f;
+            m_jumpForce = 0.0f;
+            m_rollForce = 0.0f;
+
+            // Mostrar el texto de Game Over
+            if (gameOverText != null)
+            {
+                gameOverText.gameObject.SetActive(true);
+            }
+
+            // Reiniciar el nivel al presionar 'R'
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+                SceneManager.LoadScene(currentSceneIndex);
+            }
+
+            return; // Salir del método para evitar más procesamiento
+        }
         //Enfriamiento Doble Salto
         if (m_grounded)
         {
@@ -272,13 +302,13 @@ public class HeroKnight : MonoBehaviour
     {
         if (m_currentHealth > 0)
         {
-            m_currentHealth --;
+            m_currentHealth -= cantidad; // Reducir la vida del jugador
             m_animator.SetTrigger("Hurt"); // Activar la animación de ser golpeado
             if (m_currentHealth <= 0)
             {
                 m_animator.SetBool("noBlood", m_noBlood);
                 m_animator.SetTrigger("Death"); // Activar la animación de muerte si la vida llega a cero
-                // Aquí puedes añadir cualquier otra lógica que quieras cuando el jugador muere
+                                                // Aquí puedes añadir cualquier otra lógica que quieras cuando el jugador muere
             }
         }
     }

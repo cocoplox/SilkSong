@@ -34,6 +34,7 @@ public class VidaEnemigo : MonoBehaviour
     // Método para que el enemigo muera
     void Morir()
     {
+        Variables.currency += 15;
         Destroy(gameObject); // Destruir el objeto del enemigo
     }
 

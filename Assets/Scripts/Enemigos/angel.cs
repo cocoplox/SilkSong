@@ -8,6 +8,7 @@ public class Angel : MonoBehaviour
     public float alturaMax;
     public float alturaMin;
     public float velocidad;
+    public int damage = 1;
 
     private bool subiendo = true;
 
@@ -54,16 +55,12 @@ public class Angel : MonoBehaviour
         Destroy(gameObject); // Destruir el objeto del ángel
     }
 
-    private void OnTriggerEnter2D(UnityEngine.Collider2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            VidaJugador vidaJugador = collision.gameObject.GetComponent<VidaJugador>();
-            if (vidaJugador != null)
-            {
-                vidaJugador.RecibirDanio(10); // Dañar al jugador
-            }
-            Debug.Log("Enemigo"); // Esto es solo para verificar si la colisión funciona
+            // Reducir la vida del jugador
+            other.GetComponent<HeroKnight>().RecibirDaño(damage);
         }
     }
 }
