@@ -29,9 +29,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2529783564501387489}
-  - {fileID: 5505769849570098415}
+  m_Children: []
   m_Father: {fileID: 7983430081079705402}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -107,7 +105,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7799678417262228955}
+  m_Father: {fileID: 7983430081079705402}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -316,7 +314,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7799678417262228955}
+  m_Father: {fileID: 7983430081079705402}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -468,6 +466,7 @@ MonoBehaviour:
   vidaMaxima: {fileID: 2648736553871506095}
   garrasImagen: {fileID: 6713263433723376969}
   alasMonarca: {fileID: 4358576269217647694}
+  currency: {fileID: 0}
 --- !u!1 &6713263433723376969
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,6 +655,8 @@ RectTransform:
   - {fileID: 198493848332758575}
   - {fileID: 4865765272743754987}
   - {fileID: 2756355977895674797}
+  - {fileID: 2529783564501387489}
+  - {fileID: 5505769849570098415}
   - {fileID: 7799678417262228955}
   - {fileID: 4811048820994314908}
   m_Father: {fileID: 0}
@@ -710,7 +711,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1963655599444654831
 MonoBehaviour:
   m_ObjectHideFlags: 0
