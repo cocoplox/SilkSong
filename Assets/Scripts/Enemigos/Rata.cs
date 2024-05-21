@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class Rata : MonoBehaviour
@@ -113,5 +114,6 @@ public class Rata : MonoBehaviour
     {
         // Reducir la vida de la rata
         vidaEnemigo.ReducirVida(cantidad);
+    
     }
 }
