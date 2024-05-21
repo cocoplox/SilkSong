@@ -48,7 +48,7 @@ public class CargarPartidaScript : MonoBehaviour
     {
         if (connection != null && connection.State == ConnectionState.Open)
         {
-            string query = "SELECT vida_maxima, vida_actual, nivel_espada, currency, is_Garra, is_Alas, is_Magia, is_Dash, escena FROM personaje WHERE id = 1";
+            string query = "SELECT vida_maxima, vida_actual, nivel_espada, currency, is_Garra, is_Alas, is_Magia, is_Dash, escena, current_damage FROM personaje WHERE id = 1";
             MySqlCommand command = new MySqlCommand(query, connection);
             MySqlDataReader reader = command.ExecuteReader();
 
@@ -57,12 +57,13 @@ public class CargarPartidaScript : MonoBehaviour
                 Variables.vidaMaxima = reader.GetInt32(0);
                 Variables.vidaActual = reader.GetInt32(1);
                 Variables.nivelEspada = reader.GetInt32(2);
-                Variables.currency = reader.GetInt32(3);
+                Variables.currency = reader.GetInt32(3) + 100;
                 Variables.isGarras = reader.GetBoolean(4);
                 Variables.isAlas = reader.GetBoolean(5);
                 Variables.isMagia = reader.GetBoolean(6);
                 Variables.isDash = reader.GetBoolean(7);
                 Variables.escena = reader.GetString(8);
+                Variables.currentDamage = reader.GetInt32(9);
             }
 
             reader.Close();
@@ -70,6 +71,54 @@ public class CargarPartidaScript : MonoBehaviour
 
             // Aquí puedes cargar la escena después de cargar los datos, si es necesario
             SceneManager.LoadScene(Variables.escena);
+
+            query = "SELECT health,is_alive FROM Boss1";
+            command = new MySqlCommand(query, connection);
+            reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                Variables.vidaJefe1 = reader.GetInt32(0);
+                Variables.isJefe1Alive = reader.GetBoolean(1);
+            }
+
+            reader.Close();
+
+            query = "SELECT health,is_alive FROM Boss2";
+            command = new MySqlCommand(query, connection);
+            reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                Variables.vidaJefe2 = reader.GetInt32(0);
+                Variables.isJefe2Alive = reader.GetBoolean(1);
+            }
+
+            reader.Close();
+
+            query = "SELECT health,is_alive FROM Boss3";
+            command = new MySqlCommand(query, connection);
+            reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                Variables.vidaJefe3 = reader.GetInt32(0);
+                Variables.isJefe3Alive = reader.GetBoolean(1);
+            }
+
+            reader.Close();
+
+            query = "SELECT health,is_alive FROM Boss4";
+            command = new MySqlCommand(query, connection);
+            reader = command.ExecuteReader();
+
+            if (reader.Read())
+            {
+                Variables.vidaJefe4 = reader.GetInt32(0);
+                Variables.isJefe4Alive = reader.GetBoolean(1);
+            }
+
+            reader.Close();
         }
         else
         {

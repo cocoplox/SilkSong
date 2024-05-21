@@ -14,6 +14,7 @@ public class Variables : MonoBehaviour
      public static int nivelEspada;
      public static int currency;
      public static int vidaMaxima;
+     public static int currentDamage;
 
     //BOOLS
      public static bool isGarras;
@@ -30,5 +31,18 @@ public class Variables : MonoBehaviour
     //PRECIOS VARIABLE
     public static int t1_vidaMaxima_Value = 100;
     public static int t1_mineralExtraño_Value = 150;
+
+    //Jefes
+    public static int vidaJefe1;
+    public static int vidaJefe2;
+    public static int vidaJefe3;
+    public static int vidaJefe4;
+
+    public static bool isJefe1Alive;
+    public static bool isJefe2Alive;
+    public static bool isJefe3Alive;
+    public static bool isJefe4Alive;
+
+    
 
 }

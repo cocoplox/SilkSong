@@ -10,6 +10,7 @@ public class InventarioManager : MonoBehaviour
     [SerializeField] TMP_Text vidaMaxima;
     [SerializeField] GameObject garrasImagen;
     [SerializeField] GameObject alasMonarca;
+    [SerializeField] TMP_Text currency;
 
     private void Start()
 
@@ -29,6 +30,8 @@ public class InventarioManager : MonoBehaviour
 
         nivelEspada.SetText("Level  " + Variables.nivelEspada);
         vidaMaxima.SetText("X " + Variables.vidaMaxima);
+        currency.SetText("Criptos " + Variables.currency);
+
 
 
     }

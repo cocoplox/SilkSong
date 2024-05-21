@@ -79,6 +79,7 @@ public class DatabaseManager : MonoBehaviour
                        "escena VARCHAR(255), " + 
                        "pos_X FLOAT, " + 
                        "pos_Y FLOAT, " +
+                       "current_damage INT, " +
                        "id INT AUTO_INCREMENT PRIMARY KEY);";
 
         MySqlCommand command = new MySqlCommand(query, connection);
@@ -87,11 +88,14 @@ public class DatabaseManager : MonoBehaviour
         //Hacemos el insert inicial
         initialInsert(connection);
 
-        query = "create table tienda1(\r\nvida_maxima int,\r\nmineral_extraño int\r\n);";
+        query = "create table tienda1(\r\nmax_health int,\r\nespada_lvl int,\r\nmax_health_price int,\r\nespada_lvl_price int\r\n);";
         command = new MySqlCommand(query, connection);
         command.ExecuteNonQuery();
         Debug.Log("La tabla tienda1 seha creado correctamente");
         InsertTienda1(connection);
+
+        CrearTablasJefes(connection);
+        InsertJefes(connection);
 
 
     }
@@ -111,7 +115,7 @@ public class DatabaseManager : MonoBehaviour
             return;
         }
 
-        string query = "INSERT INTO personaje (nivel_espada,is_garra,is_Alas,is_Dash,currency,escena,vida_maxima,vida_actual,is_Magia) values (@nivelEspada,@isGarras,@isAlas,@isDash,@currency,@escena,@vidaMaxima,@vidaActual,@isMagia)";
+        string query = "INSERT INTO personaje (nivel_espada,is_garra,is_Alas,is_Dash,currency,escena,vida_maxima,vida_actual,is_Magia,current_damage) values (@nivelEspada,@isGarras,@isAlas,@isDash,@currency,@escena,@vidaMaxima,@vidaActual,@isMagia,@currentDamage)";
 
         int nivelEspada = 1;
         bool isGarras = false;
@@ -122,6 +126,7 @@ public class DatabaseManager : MonoBehaviour
         int vidaMaxima = 4;
         int vidaActual = 4;
         bool isMagia = false;
+        int currentDamage = 1;
 
         MySqlCommand command = new MySqlCommand(query, connection);
 
@@ -134,6 +139,7 @@ public class DatabaseManager : MonoBehaviour
         command.Parameters.AddWithValue("@vidaMaxima", vidaMaxima);
         command.Parameters.AddWithValue("@vidaActual", vidaActual);
         command.Parameters.AddWithValue("@isMagia", isMagia);
+        command.Parameters.AddWithValue("@currentDamage", currentDamage);
 
         try
         {
@@ -151,14 +157,18 @@ public class DatabaseManager : MonoBehaviour
     }
     private void InsertTienda1(MySqlConnection connection)
     {
-        string query = "INSERT INTO tienda1 (vida_maxima,mineral_extraño) VALUES (@vidaMaxima,@mineralExtraño)";
+        string query = "INSERT INTO tienda1 (max_health,espada_lvl,max_health_price,espada_lvl_price) VALUES (@vidaMaxima,@mineralExtraño,@precioVida,@precioEspada)";
 
         int vidaMaxima = 1;
         int mineralExtraño = 1;
+        int precioVida = 100;
+        int precioEspada = 150;
 
         MySqlCommand command = new MySqlCommand(query, connection);
         command.Parameters.AddWithValue("@vidaMaxima", vidaMaxima);
         command.Parameters.AddWithValue("@mineralExtraño", mineralExtraño);
+        command.Parameters.AddWithValue("@precioVida", precioVida);
+        command.Parameters.AddWithValue("@precioEspada", precioEspada);
 
         try
         {
@@ -171,7 +181,7 @@ public class DatabaseManager : MonoBehaviour
     }
     private void limpiarTodo(MySqlConnection connection)
     {
-        string query = "DROP TABLE personaje, tienda1";
+        string query = "DROP TABLE personaje, tienda1, boss1,boss2,boss3,boss4";
 
         MySqlCommand command = new MySqlCommand(query,connection);
 
@@ -193,5 +203,63 @@ public class DatabaseManager : MonoBehaviour
             connection.Close();
         }
         
+    }
+    public void CrearTablasJefes(MySqlConnection connection)
+    {
+        string query = "create table Boss1(\r\nhealth int,\r\nis_alive boolean\r\n);";
+
+        MySqlCommand command = new MySqlCommand( query,connection);
+        command.ExecuteNonQuery();
+
+        query = "create table Boss2(\r\nhealth int,\r\nis_alive boolean\r\n);";
+        command = new MySqlCommand( query,connection);
+        command.ExecuteNonQuery();
+
+        query = "create table Boss3(\r\nhealth int,\r\nis_alive boolean\r\n);";
+        command = new MySqlCommand(query, connection);
+        command.ExecuteNonQuery();
+
+        query = "create table Boss4(\r\nhealth int,\r\nis_alive boolean\r\n);";
+        command = new MySqlCommand(query, connection);
+        command.ExecuteNonQuery();
+
+
+
+    }
+    public void InsertJefes(MySqlConnection connection)
+    {
+        string query = "INSERT into Boss1 (health,is_alive) VALUES(@health,@isAlive)";
+        int health = 15;
+        bool isAlive = true;
+        
+        MySqlCommand command = new MySqlCommand(query,connection);
+        command.Parameters.AddWithValue("@health", health);
+        command.Parameters.AddWithValue("@isAlive",isAlive);
+
+        command.ExecuteNonQuery();
+
+        query = "INSERT into Boss2 (health,is_alive) VALUES(@health,@isAlive)";
+        command = new MySqlCommand(query,connection);
+        command.Parameters.AddWithValue("@health", health);
+        command.Parameters.AddWithValue("@isAlive", isAlive);
+
+        command.ExecuteNonQuery();
+
+        query = "INSERT into Boss3 (health,is_alive) VALUES(@health,@isAlive)";
+        command = new MySqlCommand (query,connection);
+        command.Parameters.AddWithValue("@health", health);
+        command.Parameters.AddWithValue("@isAlive", isAlive);
+
+        command.ExecuteNonQuery();
+
+        query = "INSERT into Boss4 (health,is_alive) VALUES(@health,@isAlive)";
+        command = new MySqlCommand(query, connection);
+        command.Parameters.AddWithValue("@health", health);
+        command.Parameters.AddWithValue("@isAlive", isAlive);
+
+        command.ExecuteNonQuery();
+
+
+
     }
 }
