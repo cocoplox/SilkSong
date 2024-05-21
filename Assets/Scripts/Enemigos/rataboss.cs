@@ -7,7 +7,7 @@ public class rataboss : MonoBehaviour
     public Color damagedColor = new Color(1f, 0.231f, 0.231f, 1f); // Color cuando está dañado (rojo)
     private Color originalColor; // Color original del sprite
     public float tiempoColorOriginal = 1.0f; // Tiempo en segundos para volver al color original
-    private int damage;
+    public int damage;
 
     private VidaEnemigo vidaEnemigo; // Referencia al script VidaEnemigo
 

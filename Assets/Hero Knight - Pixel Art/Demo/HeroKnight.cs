@@ -39,6 +39,10 @@ public class HeroKnight : MonoBehaviour
     [SerializeField] float distanciaDelAtaque = 1.5f;
     [SerializeField] LayerMask capaDeEnemigos;
 
+    private Vector3 ataquePosicionIzquierda = new Vector3(-0.84f, 0.72f, 0);
+    private Vector3 ataquePosicionDerecha = new Vector3(1.06f, 0.72f, 0);
+
+
     // Use this for initialization
     void Start()
     {
@@ -118,13 +122,15 @@ public class HeroKnight : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().flipX = false;
             m_facingDirection = 1;
+            ActualizarPosicionAtaque();  // Llama a la función para actualizar la posición del ataque
         }
-
         else if (inputX < 0)
         {
             GetComponent<SpriteRenderer>().flipX = true;
             m_facingDirection = -1;
+            ActualizarPosicionAtaque();  // Llama a la función para actualizar la posición del ataque
         }
+
 
         // Mover
         if (!m_rolling)
@@ -321,6 +327,19 @@ public class HeroKnight : MonoBehaviour
     {
         return m_currentHealth;
     }
+
+    void ActualizarPosicionAtaque()
+    {
+        if (m_facingDirection == 1)
+        {
+            areaAtack.transform.localPosition = ataquePosicionDerecha;
+        }
+        else
+        {
+            areaAtack.transform.localPosition = ataquePosicionIzquierda;
+        }
+    }
+
 
     /*void RealizarAtaque()
     {
