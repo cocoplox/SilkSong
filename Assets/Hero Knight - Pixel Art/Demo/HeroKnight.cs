@@ -185,7 +185,7 @@ public class HeroKnight : MonoBehaviour
 
         // -- Manejar Animaciones --
         // Deslizamiento en la pared
-        m_isWallSliding = (m_wallSensorR1.State() && m_wallSensorR2.State()) || (m_wallSensorL1.State() && m_wallSensorL2.State());
+        m_isWallSliding = (m_wallSensorR1.State() && m_wallSensorR2.State()) && (m_wallSensorL1.State() && m_wallSensorL2.State() || Variables.isGarras);
         m_animator.SetBool("WallSlide", m_isWallSliding);
 
         // Muerte
@@ -272,7 +272,7 @@ public class HeroKnight : MonoBehaviour
             m_jumpCooldownTimer = 0;
         }
         //Doble salto
-        else if (Input.GetKeyDown("space") && (m_grounded || m_isWallSliding || (!m_grounded && !m_extraJumpUsed)) && !m_rolling && m_jumpCooldown)
+        else if (Input.GetKeyDown("space") && (m_grounded || m_isWallSliding || (!m_grounded && !m_extraJumpUsed)) && !m_rolling && m_jumpCooldown || Variables.isAlas)
         {
             // Restablecer la bandera de salto extra
             m_extraJumpUsed = true;

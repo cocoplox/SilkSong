@@ -14,7 +14,7 @@ public class AtaqueM : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         jugador = GameObject.FindGameObjectWithTag("Player").transform;
-        velocidadLanzamiento = GetComponent<Mago>().velocidadAtaque; // Tomar la velocidad de ataque del Mago
+        velocidadLanzamiento = GetComponent<Mago>().velocidadAtaque; // Tomar la velocidad de ataque del Magoda
         InvokeRepeating("Atacar", 0, velocidadLanzamiento);
     }
 
