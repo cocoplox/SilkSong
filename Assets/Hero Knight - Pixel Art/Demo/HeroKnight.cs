@@ -12,6 +12,9 @@ public class HeroKnight : MonoBehaviour
     [SerializeField] GameObject m_slideDust;
     [SerializeField] Text gameOverText; // Texto que se mostrará cuando el jugador muera
 
+    private Vector3 ataquePosicionIzquierda = new Vector3(-0.7f, 0.642f, 0);
+    private Vector3 ataquePosicionDerecha = new Vector3(1.077f, 0.642f, 0);
+
     public bool m_extraJumpUsed = false;
 
 
@@ -35,7 +38,7 @@ public class HeroKnight : MonoBehaviour
     private float m_delayToIdle = 0.0f;
     private float m_rollDuration = 8.0f / 14.0f;
     private float m_rollCurrentTime;
-    private float m_currentHealth;
+    private bool hasPlayedDeathSound = false;
 
     public GameObject areaAtack;//empty con el trigger de la zona de ataque
 
@@ -53,7 +56,9 @@ public class HeroKnight : MonoBehaviour
         m_wallSensorR2 = transform.Find("WallSensor_R2").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL1 = transform.Find("WallSensor_L1").GetComponent<Sensor_HeroKnight>();
         m_wallSensorL2 = transform.Find("WallSensor_L2").GetComponent<Sensor_HeroKnight>();
-        m_currentHealth = m_maxHealth; // Inicializamos la vida del jugador al valor máximo
+        Variables.vidaActual = Variables.vidaMaxima; // Inicializamos la vida del jugador al valor máximo
+
+
 
         if (gameOverText != null)
         {
@@ -64,7 +69,7 @@ public class HeroKnight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_currentHealth <= 0)
+        if (Variables.vidaActual <= 0)
         {
             m_speed = 0.0f;
             m_jumpForce = 0.0f;
@@ -105,9 +110,9 @@ public class HeroKnight : MonoBehaviour
             }
         }
 
-        Debug.Log("Vida actual del jugador: " + m_currentHealth);
+        Debug.Log("Vida actual del jugador: " + Variables.vidaActual);
         // Si la vida es menor o igual a 0, el jugador no puede moverse ni saltar ni rodar
-        if (m_currentHealth <= 0)
+        if (Variables.vidaActual <= 0)
         {
             m_speed = 0.0f;
             m_jumpForce = 0.0f;
@@ -148,12 +153,14 @@ public class HeroKnight : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().flipX = false;
             m_facingDirection = 1;
+            ActualizarPosicionAtaque();
         }
 
         else if (inputX < 0)
         {
             GetComponent<SpriteRenderer>().flipX = true;
             m_facingDirection = -1;
+            ActualizarPosicionAtaque();
         }
 
         // Mover
@@ -298,13 +305,13 @@ public class HeroKnight : MonoBehaviour
 
 
     // Método para reducir la vida del jugador
-    public void RecibirDaño(float cantidad)
+    public void RecibirDaño(int cantidad)
     {
-        if (m_currentHealth > 0)
+        if (Variables.vidaActual > 0)
         {
-            m_currentHealth -= cantidad; // Reducir la vida del jugador
+            Variables.vidaActual -= cantidad; // Reducir la vida del jugador
             m_animator.SetTrigger("Hurt"); // Activar la animación de ser golpeado
-            if (m_currentHealth <= 0)
+            if (Variables.vidaActual <= 0)
             {
                 m_animator.SetBool("noBlood", m_noBlood);
                 m_animator.SetTrigger("Death"); // Activar la animación de muerte si la vida llega a cero
@@ -349,7 +356,18 @@ public class HeroKnight : MonoBehaviour
     }
     public float GetCurrentHealth()
     {
-        return m_currentHealth;
+        return Variables.vidaActual;
+    }
+    void ActualizarPosicionAtaque()
+    {
+        if (m_facingDirection == 1)
+        {
+            areaAtack.transform.localPosition = ataquePosicionDerecha;
+        }
+        else
+        {
+            areaAtack.transform.localPosition = ataquePosicionIzquierda;
+        }
     }
 
     /*void RealizarAtaque()
