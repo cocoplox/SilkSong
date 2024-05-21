@@ -37,11 +37,16 @@ public class HeroKnight : MonoBehaviour
     private float m_rollDuration = 8.0f / 14.0f;
     private float m_rollCurrentTime;
 
+
     public GameObject areaAtack;//empty con el trigger de la zona de ataque
 
     private bool ataque;
     [SerializeField] float distanciaDelAtaque = 1.5f;
     [SerializeField] LayerMask capaDeEnemigos;
+
+    [SerializeField] AudioClip recibirDañoClip; // Clip de audio para recibir daño
+    private AudioSource audioSource; // Componente AudioSource
+
 
     private Vector3 ataquePosicionIzquierda = new Vector3(-0.84f, 0.72f, 0);
     private Vector3 ataquePosicionDerecha = new Vector3(1.06f, 0.72f, 0);
@@ -50,6 +55,7 @@ public class HeroKnight : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         m_animator = GetComponent<Animator>();
         m_body2d = GetComponent<Rigidbody2D>();
         m_groundSensor = transform.Find("GroundSensor").GetComponent<Sensor_HeroKnight>();
@@ -79,6 +85,9 @@ public class HeroKnight : MonoBehaviour
             {
                 gameOverText.gameObject.SetActive(true);
             }
+
+            // Reproducir el sonido de muerte
+            
 
             // Reiniciar el nivel al presionar 'R'
             if (Input.GetKeyDown(KeyCode.R))
@@ -310,6 +319,13 @@ public class HeroKnight : MonoBehaviour
         {
             Variables.vidaActual -= cantidad; // Reducir la vida del jugador
             m_animator.SetTrigger("Hurt"); // Activar la animación de ser golpeado
+
+            // Reproducir el sonido de recibir daño
+            if (audioSource != null && recibirDañoClip != null)
+            {
+                audioSource.PlayOneShot(recibirDañoClip);
+            }
+
             if (Variables.vidaActual <= 0)
             {
                 m_animator.SetBool("noBlood", m_noBlood);

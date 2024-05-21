@@ -5,17 +5,25 @@ public class VidaEnemigo : MonoBehaviour
 {
     public float vidaMaxima = 100.0f; // Vida máxima del enemigo
     public float vidaActual; // Vida actual del enemigo
-
+    public bool J1;
+    public bool J2;
+    public bool J3;
+    public bool J4;
+    [SerializeField] AudioClip daño;
+    private AudioSource audioSource;
     public UnityEvent OnVidaReducida; // Evento que se activa cuando la vida se reduce
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         vidaActual = vidaMaxima; // Inicializar la vida actual con el valor máximo
     }
 
     // Método para reducir la vida del enemigo
     public void ReducirVida(float cantidad)
     {
+        audioSource.PlayOneShot(daño);
+
         vidaActual -= cantidad; // Restar la cantidad de daño recibida
         Debug.Log(vidaActual);
 
@@ -34,8 +42,36 @@ public class VidaEnemigo : MonoBehaviour
     // Método para que el enemigo muera
     void Morir()
     {
-        Variables.currency += 15;
-        Destroy(gameObject); // Destruir el objeto del enemigo
+        if (J1 == true)
+        {
+            Variables.isJefe1Alive = false;
+            Variables.currency += 100;
+            Destroy(gameObject); // Destruir el objeto del enemigo
+        }
+        if (J2 == true)
+        {
+            Variables.isJefe2Alive = false;
+            Variables.currency += 100;
+            Destroy(gameObject); // Destruir el objeto del enemigo
+        }
+        if (J3 == true)
+        {
+            Variables.isJefe3Alive = false;
+            Variables.currency += 100;
+            Destroy(gameObject); // Destruir el objeto del enemigo
+        }
+        if (J4 == true)
+        {
+            Variables.isJefe4Alive = false;
+            Variables.currency += 100;
+            Destroy(gameObject); // Destruir el objeto del enemigo
+        }
+        else
+        {
+            Variables.currency += 15;
+            Destroy(gameObject);
+        }
+
     }
 
     // Método para obtener la vida actual del enemigo
