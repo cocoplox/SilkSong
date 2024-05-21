@@ -4,7 +4,7 @@ public class AtaqueF : MonoBehaviour
 {
     public float velocidadMovimiento = 5.0f; // Velocidad de movimiento del ataque
     public float tiempoVida = 3.0f; // Tiempo de vida del ataque en segundos
-    public float danio = 10.0f; // Cantidad de daño que inflige el ataque
+    public int danio = 10; // Cantidad de daño que inflige el ataque
     private Transform jugador; // Referencia al jugador
     Vector3 direccionJugador;
     Vector3 direccionMovimiento;

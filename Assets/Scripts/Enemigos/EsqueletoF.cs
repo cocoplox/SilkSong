@@ -5,7 +5,7 @@ public class Enemigo : MonoBehaviour
     public Transform punto1; // Primer punto
     public Transform punto2; // Segundo punto
     public float velocidad = 2f; // Velocidad de movimiento
-    public float dañoAlJugador = 1f; // Cantidad de daño que causa al jugador
+    public int dañoAlJugador = 1; // Cantidad de daño que causa al jugador
     public float vidaMaxima = 10f; // Vida máxima del enemigo
 
     private bool moviendoseHaciaPunto1 = false; // Variable para controlar la dirección de movimiento

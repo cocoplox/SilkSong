@@ -11,7 +11,7 @@ public class Bdash : MonoBehaviour
     public float tiempoEntreAumentos = 10f; // Tiempo entre aumentos de velocidad
     public int repeticionesAumento = 3; // Número de veces que se aumentará la velocidad antes de quedarse quieto
     public float tiempoQuietoFinal = 3f; // Tiempo que el enemigo estará quieto al final
-    public float dañoAlJugador = 1f; // Cantidad de daño que causa al jugador
+    public int dañoAlJugador = 1; // Cantidad de daño que causa al jugador
     public float vidaMaxima = 10f; // Vida máxima del enemigo
 
     private bool moviendoseHaciaPunto1 = false; // Variable para controlar la dirección de movimiento

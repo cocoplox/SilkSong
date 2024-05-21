@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class AtaqueJugador : MonoBehaviour
 {
-    [SerializeField] float daño = 10.0f; // Cantidad de daño que el ataque inflige a los enemigos
 
     // Método que se llama cuando el collider del objeto entra en contacto con otro collider
     void OnTriggerEnter2D(Collider2D other)
@@ -17,7 +16,7 @@ public class AtaqueJugador : MonoBehaviour
             if (vidaEnemigo != null)
             {
                 // Reducir la vida del enemigo
-                vidaEnemigo.ReducirVida(daño);
+                vidaEnemigo.ReducirVida(Variables.currentDamage);
 
             }
         }
