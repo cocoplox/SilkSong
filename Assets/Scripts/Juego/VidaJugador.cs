@@ -42,7 +42,7 @@ public class VidaJugador : MonoBehaviour
         // Por ejemplo, desactivar el script de movimiento, controlar la entrada del jugador, etc.
 
         // Desactivar el collider del jugador para evitar colisiones adicionales
-        GetComponent<Collider2D>().enabled = false;
+        //GetComponent<Collider2D>().enabled = false;
 
         // Finalmente, puedes hacer que el juego se detenga o realizar cualquier otra acción necesaria
         // Por ejemplo, mostrar un mensaje de "Game Over" y permitir al jugador reiniciar el nivel

@@ -18,6 +18,7 @@ public class AtaqueJugador : MonoBehaviour
             {
                 // Reducir la vida del enemigo
                 vidaEnemigo.ReducirVida(daño);
+
             }
         }
     }
