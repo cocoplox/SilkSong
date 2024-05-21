@@ -272,7 +272,7 @@ public class HeroKnight : MonoBehaviour
             m_jumpCooldownTimer = 0;
         }
         //Doble salto
-        else if (Input.GetKeyDown("space") && (m_grounded || m_isWallSliding || (!m_grounded && !m_extraJumpUsed)) && !m_rolling && m_jumpCooldown || Variables.isAlas)
+        else if (Input.GetKeyDown("space") && (m_grounded && m_isWallSliding && (!m_grounded && !m_extraJumpUsed)) && !m_rolling && m_jumpCooldown || Variables.isAlas)
         {
             // Restablecer la bandera de salto extra
             m_extraJumpUsed = true;
